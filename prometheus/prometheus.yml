@@ -24,7 +24,7 @@ scrape_configs:
 - job_name: 'pushgateway'
   honor_labels: true
   static_configs:
-    - targets: ['https://pushgateway-1wrl.onrender.com']
+    - targets: ['https://pushgateway-1wrl.onrender.com/metrics']
       labels:
         instance: ''
 remote_write:
