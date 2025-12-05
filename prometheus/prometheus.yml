@@ -1,50 +1,61 @@
 global:
   scrape_interval: 5s
   evaluation_interval: 5s
+
 scrape_configs:
-- job_name: prometheus
-  static_configs:
-  - targets:
-    - prometheus-e83j.onrender.com
-- job_name: demo
-  static_configs:
-  - targets:  
-    - prometheus-demo-service.onrender.com
-  metric_relabel_configs:
-  - action: keep
-    source_labels: [__name__]
-    regex: '(demo_|http_).*'
-- job_name: redirector
-  static_configs:
-  - targets:
-    - ux-research-redirector.onrender.com
-- job_name: node
-  static_configs:
-    - targets: ["localhost:9090"]
-- job_name: 'pushgateway'
-  honor_labels: true
-  static_configs:
-    - targets: ['https://pushgateway-1wrl.onrender.com/metrics']
-      labels:
-        instance: ''
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - prometheus-e83j.onrender.com
+
+  - job_name: demo
+    static_configs:
+      - targets:
+          - prometheus-demo-service.onrender.com
+    metric_relabel_configs:
+      - action: keep
+        source_labels: [__name__]
+        regex: '(demo_|http_).*'
+
+  - job_name: redirector
+    static_configs:
+      - targets:
+          - ux-research-redirector.onrender.com
+
+  - job_name: node
+    static_configs:
+      - targets:
+          - localhost:9090
+
+  - job_name: 'pushgateway'
+    honor_labels: true
+    scheme: https
+    static_configs:
+      - targets:
+          - pushgateway-1wrl.onrender.com
+        labels:
+          instance: ''
+
 remote_write:
-- url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
-  basic_auth:
-    username: 1495985
-    password: "glc_eyJvIjoiNjk0NTU5IiwibiI6InJlbW90ZS13cml0ZS1mb3ItZGF0YS10cmFpbHMtc2hvcnQtdG9rZW4iLCJrIjoia0NoaTE3ZGZnOG0wZHo5ME5maDcyYTI1IiwibSI6eyJyIjoicHJvZC11cy1lYXN0LTAifX0="
-  write_relabel_configs: 
-  - action: keep 
-    source_labels: [__name__] 
-    regex: '(demo_).*'  
-- url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
-  basic_auth:
-    username: 1496441
-    password: "glc_eyJvIjoiNjk0NTU5IiwibiI6InJlbW90ZS13cml0ZS1kYXRhLXRyYWlscy10b2tlbjIiLCJrIjoiODJEZ0g2T2ZKODI1cVUxTmh6N2Q5OWZtIiwibSI6eyJyIjoicHJvZC11cy1lYXN0LTAifX0="
-  write_relabel_configs: 
-  - action: keep 
-    source_labels: [__name__] 
-    regex: '(demo_).*' 
-- url: https://prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom/push
-  basic_auth:
-    username: 2844985
-    password: "glc_eyJvIjoiNjk0NTU5IiwibiI6InN0YWNrLTE0NjAzNzYtYWxsb3ktaG9zdGVkLXByb21ldGhldXMtdG9rZW4iLCJrIjoiYzVNNjlZWGdzQTBrOXg1eloxczY4TjdIIiwibSI6eyJyIjoicHJvZC1ldS13ZXN0LTIifX0="
+  - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+    basic_auth:
+      username: 1495985
+      password: "glc_eyJvIjoiNjk0NTU5IiwibiI6InJlbW90ZS13cml0ZS1mb3ItZGF0YS10cmFpbHMtc2hvcnQtdG9rZW4iLCJrIjoia0NoaTE3ZGZnOG0wZHo5ME5maDcyYTI1IiwibSI6eyJyIjoicHJvZC11cy1lYXN0LTAifX0="
+    write_relabel_configs:
+      - action: keep
+        source_labels: [__name__]
+        regex: '(demo_).*'
+
+  - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+    basic_auth:
+      username: 1496441
+      password: "glc_eyJvIjoiNjk0NTU5IiwibiI6InJlbW90ZS13cml0ZS1kYXRhLXRyYWlscy10b2tlbjIiLCJrIjoiODJEZ0g2T2ZKODI1cVUxTmh6N2Q5OWZtIiwibSI6eyJyIjoicHJvZC11cy1lYXN0LTAifX0="
+    write_relabel_configs:
+      - action: keep
+        source_labels: [__name__]
+        regex: '(demo_).*'
+
+  - url: https://prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom/push
+    basic_auth:
+      username: 2844985
+      password: "glc_eyJvIjoiNjk0NTU5IiwibiI6InN0YWNrLTE0NjAzNzYtYWxsb3ktaG9zdGVkLXByb21ldGhldXMtdG9rZW4iLCJrIjoiYzVNNjlZWGdzQTBrOXg1eloxczY4TjdIIiwibSI6eyJyIjoicHJvZC1ldS13ZXN0LTIifX0="
