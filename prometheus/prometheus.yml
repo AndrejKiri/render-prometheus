@@ -18,6 +18,9 @@ scrape_configs:
   static_configs:
   - targets:
     - ux-research-redirector.onrender.com
+- job_name: node
+  static_configs:
+    - targets: ["localhost:9090"]
 remote_write:
 - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
   basic_auth:
@@ -34,4 +37,8 @@ remote_write:
   write_relabel_configs: 
   - action: keep 
     source_labels: [__name__] 
-    regex: '(demo_).*'  
+    regex: '(demo_).*' 
+- url: https://prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom/push
+  basic_auth:
+    username: 2844985
+    password: REMOTE_WRITE
